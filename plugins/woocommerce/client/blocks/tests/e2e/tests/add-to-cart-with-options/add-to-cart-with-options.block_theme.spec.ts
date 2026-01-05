@@ -106,6 +106,16 @@ test.describe( 'Add to Cart + Options Block', () => {
 			'Skipping test as withSyncEvent is available starting from WordPress 6.8'
 		);
 
+		const additionalInfoPanel =
+			wpCoreVersion >= 6.9
+				? page
+						.getByRole( 'button', {
+							name: 'Additional Information',
+						} )
+						.locator( '../..' )
+						.locator( '.wp-block-accordion-panel' )
+				: page.getByLabel( 'Additional Information', { exact: true } );
+
 		const variationDescription =
 			'This is the output of the variation description';
 		// Set a variable product as having 100 in stock and one of its variations as being out of stock.
@@ -182,16 +192,6 @@ test.describe( 'Add to Cart + Options Block', () => {
 			.locator( '.wp-block-woocommerce-product-price' )
 			.first();
 		const quantitySelector = page.getByLabel( 'Product quantity' );
-
-		const additionalInfoPanel =
-			wpCoreVersion >= 6.9
-				? page
-						.getByRole( 'button', {
-							name: 'Additional Information',
-						} )
-						.locator( '../..' )
-						.locator( '.wp-block-accordion-panel' )
-				: page.getByLabel( 'Additional Information', { exact: true } );
 
 		await test.step( 'displays an error when attributes are not selected', async () => {
 			await addToCartButton.click();
